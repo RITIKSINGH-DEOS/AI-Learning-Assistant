@@ -142,32 +142,36 @@ Powered by **Google Gemini AI**
 ```
 AI-Learning-Assistant/
 │
-├── client/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── hooks/
-│   │   ├── layouts/
-│   │   ├── utils/
-│   │   └── App.jsx
-│   │
-│   └── package.json
-│
-├── server/
+├── backend/
+│   ├── config/
 │   ├── controllers/
 │   ├── middleware/
 │   ├── models/
 │   ├── routes/
-│   ├── services/
-│   ├── uploads/
 │   ├── utils/
-│   ├── config/
+│   ├── .env
+│   ├── .gitignore
+│   ├── package.json
+│   ├── package-lock.json
 │   └── server.js
 │
-├── README.md
-└── package.json
+├── frontend/
+│   └── ai-learning-assistant/
+│       ├── public/
+│       ├── src/
+│       ├── package.json
+│       ├── package-lock.json
+│       ├── vite.config.js
+│       ├── eslint.config.js
+│       ├── index.html
+│       └── README.md
+│
+├── uploads/
+│   └── documents/
+│       └── .gitkeep
+│
+├── .gitignore
+└── README.md
 ```
 
 ---
@@ -384,10 +388,10 @@ B.Tech CSE Student
 AI & Full Stack Developer
 
 GitHub:
-https://github.com/yourusername
+https://github.com/RITIKSINGH-DEOS
 
 LinkedIn:
-https://linkedin.com/in/yourusername
+https://www.linkedin.com/in/ritiksinghdeos
 
 ---
 
@@ -395,6 +399,6 @@ https://linkedin.com/in/yourusername
 
 ### ⭐ If you found this project helpful, please give it a Star.
 
-Made with ❤️ using MERN Stack and Google Gemini AI
+Made with ❤️ using MERN Stack and Google Gemini API
 
 </div>
