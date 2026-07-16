@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, Link } from "react-router-dom";
 import documentService from '../../services/documentService';
 import Spinner from "../../components/common/Spinner";
@@ -42,7 +42,8 @@ const DocumentsDetailPage = () => {
       return filePath;
     }
 
-    const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+    // const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+    const baseUrl = import.meta.env.VITE_API_URL;
     return `${baseUrl}${filePath.startsWith('/') ? '' : '/'}${filePath}`;
   };
 
