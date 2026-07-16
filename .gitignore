@@ -1,2 +1,10 @@
 uploads/documents/*
 !uploads/documents/.gitkeep
+
+frontend/ai-learning-assistant/node_modules/
+backend/node_modules/
+
+frontend/ai-learning-assistant/dist/
+
+frontend/ai-learning-assistant/.env
+backend/.env
