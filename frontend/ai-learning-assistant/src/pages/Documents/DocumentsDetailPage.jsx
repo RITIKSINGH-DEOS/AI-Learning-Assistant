@@ -56,6 +56,7 @@ const DocumentsDetailPage = () => {
     }
 
     const pdfURL = getPDFURL();
+
     return (
       <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
         <div className="flex items-center justify-between p-4 bg-gray-50 border-b border-gray-300">

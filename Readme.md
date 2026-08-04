@@ -395,6 +395,8 @@ https://www.linkedin.com/in/ritiksinghdeos
 
 ---
 
+Note: The project is fully functional when run locally. The deployed version uses temporary server storage, which may affect uploaded PDF availability on free hosting platforms like Render.
+
 <div align="center">
 
 ### ⭐ If you found this project helpful, please give it a Star.
