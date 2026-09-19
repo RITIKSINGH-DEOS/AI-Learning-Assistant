@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from "react-router-dom";
-import { Sparkles, BookOpen, Lightbulb } from 'lucide-react';
+import { Sparkles, BookOpen, Lightbulb, Copy, Check } from 'lucide-react';
 import aiService from '../../services/aiService';
 import toast from 'react-hot-toast';
 import MarkdownRenderer from "../common/MarkdownRenderer";
@@ -13,6 +13,19 @@ const AIActions = () => {
     const [modalContent, setModalContent] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     const [concept, setConcept] = useState("");
+    const [copied, setCopied] = useState(false);
+
+    const handleCopyContent = async () => {
+        if (!modalContent) return;
+        try {
+            await navigator.clipboard.writeText(modalContent);
+            setCopied(true);
+            toast.success("Content copied to clipboard");
+            setTimeout(() => setCopied(false), 2000);
+        } catch {
+            toast.error("Failed to copy content");
+        }
+    };
 
     const handleGenerateSummary = async () => {
         setLoadingAction("summary");
@@ -139,11 +152,42 @@ const AIActions = () => {
                     <Modal
                         isOpen={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
-                        title={modalTitle}>
-                            <div className="max-h-[60vh] overflow-y-auto prose prose-sm max-w-none prose-slate">
+                        title={modalTitle}
+                        maxWidth="max-w-3xl"
+                    >
+                        <div className="flex flex-col space-y-4">
+                            {/* Toolbar */}
+                            <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
+                                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    AI Generated Response
+                                </span>
+                                <button
+                                    type="button"
+                                    onClick={handleCopyContent}
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/80 rounded-lg transition-all"
+                                >
+                                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                                    {copied ? "Copied" : "Copy to clipboard"}
+                                </button>
+                            </div>
+
+                            {/* Markdown Content */}
+                            <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed text-sm">
                                 <MarkdownRenderer content={modalContent} />
                             </div>
-                        </Modal>
+
+                            {/* Footer */}
+                            <div className="pt-4 border-t border-slate-100 flex justify-end shrink-0">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="px-5 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all"
+                                >
+                                    Done
+                                </button>
+                            </div>
+                        </div>
+                    </Modal>
                 </div>
             </div>
         </>
