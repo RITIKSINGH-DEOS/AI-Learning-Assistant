@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react'
 import quizService from '../../services/quizService'
@@ -82,7 +82,7 @@ const QuizTakePage = () => {
 
   if (!quiz || quiz.questions.length === 0) {
     return (
-      <div className="flex itec-center justify-center min-h-[60vh]">
+      <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <p className="text-slate-600 text-lg">Quiz not found or has no questions.</p>
         </div>
@@ -91,7 +91,6 @@ const QuizTakePage = () => {
   }
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
-  const isAnswered = selectedAnswers.hasOwnProperty(currentQuestion._id);
   const answeredCount = Object.keys(selectedAnswers).length;
 
   return (
@@ -229,7 +228,7 @@ const QuizTakePage = () => {
       {/* Question Navigation Dots */}
       <div className="mt-0 flex items-center justify-center gap-2 flex-wrap">
         {quiz.questions.map((_, index) => {
-          const isAnsweredQuestion = selectedAnswers.hasOwnProperty(quiz.questions[index]._id);
+          const isAnsweredQuestion = selectedAnswers[quiz.questions[index]._id] !== undefined;
           const isCurrent = index === currentQuestionIndex;
           return (
             <button

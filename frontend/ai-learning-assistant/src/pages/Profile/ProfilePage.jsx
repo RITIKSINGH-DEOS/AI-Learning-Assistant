@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import PageHeader from '../../components/common/PageHeader'
 import Button from '../../components/common/Button'
 import Spinner from '../../components/common/Spinner'
 import authService from '../../services/authService'
-import { useAuth } from '../../context/AuthContext'
 import toast from 'react-hot-toast'
 import { User, Mail, Lock } from 'lucide-react'
-
-
 
 const ProfilePage = () => {
 
@@ -64,6 +61,15 @@ const ProfilePage = () => {
       setPasswordLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div>
       <PageHeader title="Profile Settings" />
@@ -103,7 +109,7 @@ const ProfilePage = () => {
         </div>
       </div>
       {/* Password Change Form*/}
-      <div className="bg-white border border-neutral-200 rounded-lg p-6">
+      <div className="bg-white border border-neutral-200 rounded-lg p-6 mt-8">
         <h3 className="text-lg font-semibold text-neutral-900 mb-4">
           Change Password
         </h3>
@@ -121,7 +127,7 @@ const ProfilePage = () => {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 required
-                className="w-full h-9 pl-9 pr-3 border border-neutral-200 rounded-lg bg-white text-sm text-neutral-900 placeholder-neutral-400 transition-colors duration-150 focus:outline-none  focus:ring-2 focus:ring[#00d492] focus:border-transparent"
+                className="w-full h-9 pl-9 pr-3 border border-neutral-200 rounded-lg bg-white text-sm text-neutral-900 placeholder-neutral-400 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#00d492] focus:border-transparent"
               />
             </div>
           </div>
@@ -138,7 +144,7 @@ const ProfilePage = () => {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
-                className="w-full h-9 pl-9 pr-3 border border-neutral-200 rounded-lg bg-white text-sm text-neutral-900 placeholder-neutral-400 transition-colors duration-150 focus:outline-none  focus:ring-2 focus:ring[#00d492] focus:border-transparent"
+                className="w-full h-9 pl-9 pr-3 border border-neutral-200 rounded-lg bg-white text-sm text-neutral-900 placeholder-neutral-400 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#00d492] focus:border-transparent"
               />
             </div>
           </div>
@@ -155,18 +161,18 @@ const ProfilePage = () => {
                 value={confirmNewPassword}
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                 required
-                className="w-full h-9 pl-9 pr-3 border border-neutral-200 rounded-lg bg-white text-sm text-neutral-900 placeholder-neutral-400 transition-colors duration-150 focus:outline-none  focus:ring-2 focus:ring[#00d492] focus:border-transparent"
+                className="w-full h-9 pl-9 pr-3 border border-neutral-200 rounded-lg bg-white text-sm text-neutral-900 placeholder-neutral-400 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#00d492] focus:border-transparent"
               />
             </div>
           </div>
           <div className="flex justify-end">
             <Button type="submit" disabled={passwordLoading}>
-              {passwordLoading ? "Changing" : 'Change Password'}
+              {passwordLoading ? "Changing..." : 'Change Password'}
             </Button>
           </div>
         </form>
-      </div >
-    </div >
+      </div>
+    </div>
   )
 }
 

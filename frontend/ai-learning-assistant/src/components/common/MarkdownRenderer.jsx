@@ -10,19 +10,19 @@ const MarkdownRenderer = ({ content }) => {
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
-                    h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-4 mb-2" {...props} />,
-                    h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
-                    h3: ({ node, ...props }) => <h3 className="text-md font-bold mt-3 mb-2" {...props} />,
-                    h4: ({ node, ...props }) => <h4 className="text-sm font-bold mt-3 mb-1" {...props} />,
-                    p: ({ node, ...props }) => <p className="mb-2 leading-relaxed" {...props} />,
-                    a: ({ node, ...props }) => <a className="text-[#00d492] hover:underline" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="list-disc list-inside mb-2 ml-4" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="list-decimal list-inside mb-2 ml-4" {...props} />,
-                    li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-                    strong: ({ node, ...props }) => <strong className="font-semibold" {...props} />,
-                    em: ({ node, ...props }) => <em className="Italic" {...props} />,
-                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-neutral-300 pl-4 italic text-neutral-600 my-4" {...props} />,
-                    code: ({ node, inline, className, children, ...props }) => {
+                    h1: ({ node: _node, ...props }) => <h1 className="text-xl font-bold mt-4 mb-2" {...props} />,
+                    h2: ({ node: _node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
+                    h3: ({ node: _node, ...props }) => <h3 className="text-md font-bold mt-3 mb-2" {...props} />,
+                    h4: ({ node: _node, ...props }) => <h4 className="text-sm font-bold mt-3 mb-1" {...props} />,
+                    p: ({ node: _node, ...props }) => <p className="mb-2 leading-relaxed" {...props} />,
+                    a: ({ node: _node, ...props }) => <a className="text-[#00d492] hover:underline" {...props} />,
+                    ul: ({ node: _node, ...props }) => <ul className="list-disc list-inside mb-2 ml-4" {...props} />,
+                    ol: ({ node: _node, ...props }) => <ol className="list-decimal list-inside mb-2 ml-4" {...props} />,
+                    li: ({ node: _node, ...props }) => <li className="mb-1" {...props} />,
+                    strong: ({ node: _node, ...props }) => <strong className="font-semibold" {...props} />,
+                    em: ({ node: _node, ...props }) => <em className="italic" {...props} />,
+                    blockquote: ({ node: _node, ...props }) => <blockquote className="border-l-4 border-neutral-300 pl-4 italic text-neutral-600 my-4" {...props} />,
+                    code: ({ node: _node, inline, className, children, ...props }) => {
                         const match = /language-(\w+)/.exec(className || '')
                         return !inline && match ? (
                             <SyntaxHighlighter
@@ -39,7 +39,7 @@ const MarkdownRenderer = ({ content }) => {
                             </code>
                         );
                     },
-                    pre: ({ node, ...props }) => <pre className="bg-neutral-100 text-white p-3 rounded-md overflow-x-auto font-mono text-sm my-4" {...props} />,
+                    pre: ({ node: _node, ...props }) => <pre className="bg-neutral-900 text-white p-3 rounded-md overflow-x-auto font-mono text-sm my-4" {...props} />,
                 }}
             >
                 {content}

@@ -23,7 +23,7 @@ export const chunkText = (text, chunkSize = 100, overlap = 50) => {
     const paragraphs = cleanedText.split(/\n+/).filter(p => p.trim().length > 0);
 
     const chunks = [];
-    let currentChunk = "";
+    let currentChunk = [];
     let currentWordCount = 0;
     let chunkIndex = 0;
 
@@ -137,8 +137,8 @@ export const findRelevantChunks = (chunks, query, maxChunks = 3) => {
         .filter(w => w.length > 2 && !stopWords.has(w));
 
     if (queryWords.length === 0) {
-        //Return clean chunks objects wihout Mongoose metadata
-        return chunks.slice(0, maxChunks).map(count => ({
+        //Return clean chunks objects without Mongoose metadata
+        return chunks.slice(0, maxChunks).map(chunk => ({
             content: chunk.content,
             chunkIndex: chunk.chunkIndex,
             pageNumber: chunk.pageNumber,
@@ -152,14 +152,15 @@ export const findRelevantChunks = (chunks, query, maxChunks = 3) => {
         const contentWords = content.split(/\s+/).length;
         let score = 0;
 
-        //Sore each query word
+        //Score each query word
         for (const word of queryWords) {
+            const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             //Exact word match (higher score)
-            const exactMatches = (content.match(new RegExp(`\\b${word}\\b`, 'g')) || []).length;
+            const exactMatches = (content.match(new RegExp(`\\b${escapedWord}\\b`, 'g')) || []).length;
             score += exactMatches * 3;
 
             //Partial word match (lower score)
-            const partialMatches = (content.match(new RegExp(word, 'g')) || []).length;
+            const partialMatches = (content.match(new RegExp(escapedWord, 'g')) || []).length;
             score += Math.max(0, partialMatches - exactMatches) * 1.5;
         }
 

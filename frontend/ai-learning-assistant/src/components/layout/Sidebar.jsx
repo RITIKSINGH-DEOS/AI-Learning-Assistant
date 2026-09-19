@@ -1,9 +1,6 @@
-import React from "react";
-
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { LayoutDashboard, FileText, User, LogOut, BrainCircuit, BookOpen, X } from "lucide-react";
-
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     const { logout } = useAuth();
@@ -19,9 +16,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         { to: '/documents', icon: FileText, text: 'Documents' },
         { to: '/flashcards', icon: BookOpen, text: 'Flashcards' },
         { to: '/profile', icon: User, text: 'Profile' },
-
     ];
-
 
     return (
         <>
@@ -39,9 +34,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                 {/* Logo and Close button for mobile */}
                 <div className="flex items-center justify-between h-16 px-5 border-b border-slate-200/60">
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center  justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 shadow-md shadow-emerald-500/200">
+                        <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 shadow-md shadow-emerald-500/20">
                             <BrainCircuit className="text-white" size={20} strokeWidth={2.5} />
-
                         </div>
                         <h1 className="text-base font-semibold text-slate-900 whitespace-nowrap tracking-tight">AI Learning Assistant</h1>
                     </div>

@@ -3,6 +3,7 @@ import { useState } from "react";
 
 const Flashcard = ({ flashcard, onToggleStar }) => {
     const [isFlipped, setIsFlipped] = useState(false);
+    const isStarred = Boolean(flashcard?.isStarred || flashcard?.starred);
 
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
@@ -42,7 +43,7 @@ const Flashcard = ({ flashcard, onToggleStar }) => {
                                 e.stopPropagation();
                                 onToggleStar(flashcard._id);
                             }}
-                            className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 ${flashcard.starred
+                            className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 ${isStarred
                                 ? "bg-linear-to-br from-amber-400 to-yellow-500 text-white shadow-lg shadow-amber-500/25"
                                 : "bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-amber-500"
                                 }`}
@@ -50,15 +51,15 @@ const Flashcard = ({ flashcard, onToggleStar }) => {
                             <Star
                                 className="w-4 h-4"
                                 strokeWidth={2}
-                                fill={flashcard.starred ? "currentColor" : "none"}
+                                fill={isStarred ? "currentColor" : "none"}
                             />
                         </button>
                     </div>
 
                     {/* Question Content */}
                     <div className="flex-1 flex items-center justify-center px-4 py-6">
-                        <p className="text-lg font-semibold text-slate-900 text-center loading-relaxed">
-                            {flashcard.question}
+                        <p className="text-lg font-semibold text-slate-900 text-center leading-relaxed">
+                            {flashcard?.question}
                         </p>
                     </div>
 
@@ -85,7 +86,7 @@ const Flashcard = ({ flashcard, onToggleStar }) => {
                                 e.stopPropagation();
                                 onToggleStar(flashcard._id);
                             }}
-                            className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 ${flashcard.starred
+                            className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 ${isStarred
                                 ? "bg-white/30 backdrop-blur-sm text-white border border-white/40"
                                 : "bg-white/30 backdrop-blur-sm text-white/70 hover:bg-white/30 hover:text-white border border-white/20"
                                 }`}
@@ -93,7 +94,7 @@ const Flashcard = ({ flashcard, onToggleStar }) => {
                             <Star
                                 className="w-4 h-4"
                                 strokeWidth={2}
-                                fill={flashcard.starred ? "currentColor" : "none"}
+                                fill={isStarred ? "currentColor" : "none"}
                             />
                         </button>
                     </div>
@@ -101,7 +102,7 @@ const Flashcard = ({ flashcard, onToggleStar }) => {
                     {/* Answer Content */}
                     <div className="flex-1 flex items-center justify-center px-4 py-6">
                         <p className="text-base text-white text-center leading-relaxed font-medium">
-                            {flashcard.answer}
+                            {flashcard?.answer}
                         </p>
                     </div>
 

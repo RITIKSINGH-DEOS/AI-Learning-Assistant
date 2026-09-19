@@ -1,10 +1,16 @@
 import Document from '../models/Document.js';
 import Flashcard from '../models/Flashcard.js';
 import Quiz from '../models/Quiz.js';
+import ChatHistory from '../models/ChatHistory.js';
 import { extractTextFromPDF } from '../utils/pdfParser.js';
 import { chunkText } from '../utils/textChunker.js';
 import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 //@desc Upload PDF document
 //@route POST /api/documents/upload
@@ -101,39 +107,42 @@ const processPDF = async (documentId, filePath) => {
 //@access Private
 
 export const getDocuments = async (req, res, next) => {
-
     try {
+        const userId = req.user._id || req.user.id;
         const documents = await Document.aggregate([
             {
-                $match: { userId: new mongoose.Types.ObjectId(req.user._id) }
+                $match: { userId: new mongoose.Types.ObjectId(userId) }
             },
             {
                 $lookup: {
                     from: 'flashcards',
-                    localField: 'id',
+                    localField: '_id',
                     foreignField: 'documentId',
-                    as: 'quizzes'
+                    as: 'flashcardSets'
                 }
             },
-
             {
                 $lookup: {
                     from: 'quizzes',
                     localField: '_id',
                     foreignField: 'documentId',
-                    as: 'quizzes'
+                    as: 'quizSets'
+                }
+            },
+            {
+                $addFields: {
+                    flashcardCount: { $size: '$flashcardSets' },
+                    quizCount: { $size: '$quizSets' }
                 }
             },
             {
                 $project: {
                     extractedText: 0,
                     chunks: 0,
-                    quizzes: 0,
+                    quizSets: 0,
                     flashcardSets: 0
                 }
-
             },
-
             {
                 $sort: { uploadDate: -1 }
             }
@@ -209,10 +218,19 @@ export const deleteDocument = async (req, res, next) => {
             });
         }
 
-        //Delete file from filesystem
-        await fs.unlink(document.filePath).catch(() => { });
+        // Delete file from filesystem
+        if (document.filePath) {
+            const fileName = path.basename(document.filePath.split('?')[0]);
+            const localFilePath = path.join(__dirname, '..', '..', 'uploads', 'documents', fileName);
+            await fs.unlink(localFilePath).catch(() => { });
+        }
 
-        //Delete document
+        // Cascade delete associated data
+        await Flashcard.deleteMany({ documentId: document._id });
+        await Quiz.deleteMany({ documentId: document._id });
+        await ChatHistory.deleteMany({ documentId: document._id });
+
+        // Delete document
         await document.deleteOne();
 
         res.status(200).json({

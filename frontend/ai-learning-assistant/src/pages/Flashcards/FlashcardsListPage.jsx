@@ -1,11 +1,10 @@
-import React,{useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import flashcardService from '../../services/flashcardService';
 import PageHeader from '../../components/common/PageHeader';
 import Spinner from '../../components/common/Spinner';
 import EmptyState from '../../components/common/EmptyState';
 import FlashcardSetCard from '../../components/flashcards/FlashcardSetCard';
 import toast from 'react-hot-toast';
-
 
 const FlashcardsListPage = () => {
   const [flashcardSets, setFlashcardSets] = useState([]);
@@ -15,11 +14,10 @@ const FlashcardsListPage = () => {
     const fetchFlashcardSets = async () => {
       try {
         const response = await flashcardService.getAllFlashcardSets();
-        console.log("fetchflashcardsets___", response.data);
         setFlashcardSets(response.data);
       } catch (error) {
         toast.error('Failed to fetch flashcard sets');
-        console.log(error);
+        console.error(error);
       } finally {
         setLoading(false);
       }

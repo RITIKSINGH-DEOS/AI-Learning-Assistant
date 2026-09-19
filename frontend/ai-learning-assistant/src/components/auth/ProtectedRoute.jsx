@@ -1,14 +1,17 @@
-import React from 'react'
 import { Navigate, Outlet } from "react-router-dom";
 import AppLayout from '../layout/AppLayout';
 import { useAuth } from '../../context/AuthContext';
+import Spinner from '../common/Spinner';
 
 const ProtectedRoute = () => {
-    const {isAuthenticated, loading} = useAuth();
-
+    const { isAuthenticated, loading } = useAuth();
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <Spinner />
+            </div>
+        );
     }
 
 

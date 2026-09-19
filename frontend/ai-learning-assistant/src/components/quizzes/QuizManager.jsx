@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Plus, Trash2 } from 'lucide-react'
+import { useState, useEffect, useCallback } from 'react'
+import { Plus } from 'lucide-react'
 import toast from 'react-hot-toast';
 
 import quizService from '../../services/quizService';
@@ -23,24 +23,24 @@ const QuizManager = ({ documentId }) => {
     const [deleting, setDeleting] = useState(false);
     const [selectedQuiz, setSelectedQuiz] = useState(null);
 
-    const fetchQuizzes = async () => {
+    const fetchQuizzes = useCallback(async () => {
         setLoading(true);
         try {
             const data = await quizService.getQuizzesForDocument(documentId);
-            setQuizzes(data.data);
+            setQuizzes(data.data || []);
         } catch (error) {
             toast.error('Failed to fetch quizzes');
             console.log(error);
         } finally {
             setLoading(false);
         }
-    };
+    }, [documentId]);
 
     useEffect(() => {
         if (documentId) {
             fetchQuizzes();
         }
-    }, [documentId]);
+    }, [documentId, fetchQuizzes]);
 
     const handleGenerateQuiz = async (e) => {
         e.preventDefault();
@@ -80,9 +80,12 @@ const QuizManager = ({ documentId }) => {
 
     const renderQuizContent = () => {
         if (loading) {
-            return
-            <Spinner />
-        };
+            return (
+                <div className="flex items-center justify-center py-20">
+                    <Spinner />
+                </div>
+            );
+        }
 
         if (quizzes.length === 0) {
             return (

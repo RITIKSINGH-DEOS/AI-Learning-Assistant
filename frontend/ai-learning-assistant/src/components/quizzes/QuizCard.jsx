@@ -1,6 +1,5 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
-import { Play, BarChart2, Trash2, Award, Trash } from 'lucide-react'
+import { Play, BarChart2, Trash2, Award } from 'lucide-react'
 import moment from 'moment'
 
 const QuizCard = ({ quiz, onDelete }) => {
@@ -20,7 +19,7 @@ const QuizCard = ({ quiz, onDelete }) => {
                 <div className="inline-flex items-center gap-1.5 py-1 rounded-lg text-xs font-semibold">
                     <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-1">
                         <Award className="w-3.5 h-3.5 text-emerald-600" strokeWidth={2.5} />
-                        <span className="text-emerald-700">Score:{quiz?.score}</span>
+                        <span className="text-emerald-700">Score: {quiz?.score}%</span>
                     </div>
                 </div>
                 <div >
@@ -29,7 +28,7 @@ const QuizCard = ({ quiz, onDelete }) => {
                         {quiz.title ||
                             `Quiz - ${moment(quiz.createdAt).format('MMM D, YYYY')}`}
                     </h3>
-                    <p className="text-xs font-medium text-slate-50 uppercase tracking-wide">
+                    <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">
                         Created {moment(quiz.createdAt).format('MMM D, YYYY')}
                     </p>
                 </div>

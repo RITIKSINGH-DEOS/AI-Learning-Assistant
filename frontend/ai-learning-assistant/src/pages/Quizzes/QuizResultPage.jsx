@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import quizService from '../../services/quizService'
 import PageHeader from '../../components/common/PageHeader'
 import Spinner from '../../components/common/Spinner'
 import toast from 'react-hot-toast'
-import { ArrowLeft, CheckCircle2, XCircle, Trophy, Target, BookOpen, Check, X } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, XCircle, Trophy, Target, BookOpen } from 'lucide-react'
 
 const QuizResultPage = () => {
 
@@ -46,6 +46,7 @@ const QuizResultPage = () => {
   }
 
   const { data: { quiz, results: detailedResults } } = results;
+  const docId = quiz?.document?._id || quiz?.document || '';
   const score = quiz.score;
   const totalQuestions = detailedResults.length;
   const correctAnswers = detailedResults.filter(r => r.isCorrect).length;
@@ -71,7 +72,7 @@ const QuizResultPage = () => {
       {/* Back Button */}
       <div className="mb-6">
         <Link
-          to={`/documents/${quiz.document._id}`}
+          to={docId ? `/documents/${docId}` : '/documents'}
           className="group inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors duration-200"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" strokeWidth={2} />
@@ -110,7 +111,7 @@ const QuizResultPage = () => {
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-200 rounded-xl">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" strokeWidth={2} />
-              <span className="tex-sm font-semibold text-emerald-700">
+              <span className="text-sm font-semibold text-emerald-700">
                 {correctAnswers} Correct
               </span>
             </div>
@@ -133,9 +134,10 @@ const QuizResultPage = () => {
 
         {detailedResults.map((result, index) => {
           const userAnswerIndex = result.options.findIndex(opt => opt === result.selectedAnswer);
-          const correctAnswerIndex = result.correctAnswer.startsWith('o')
-            ? parseInt(result.correctAnswer.substring(1)) - 1
-            : result.options.findIndex(opt => opt === result.correctAnswer);
+          const rawCorrect = (result.correctAnswer || '').trim();
+          const correctAnswerIndex = /^o\d/i.test(rawCorrect)
+            ? parseInt(rawCorrect.substring(1)) - 1
+            : result.options.findIndex(opt => opt.trim().toLowerCase() === rawCorrect.toLowerCase());
           const isCorrect = result.isCorrect;
           return (
             <div key={index} 
@@ -233,7 +235,7 @@ const QuizResultPage = () => {
 
       {/*Action Button*/}
       <div className ="mt-8 flex justify-center">
-        <Link to={`/documents/${quiz.document._id}`}>
+        <Link to={docId ? `/documents/${docId}` : '/documents'}>
         <button className="group relative px-8 h-12 bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold text-sm rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 active:scale-95 overflow-hidden">
           <span className="relative z-10 flex items-center gap-2">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" strokeWidth={2.5} />

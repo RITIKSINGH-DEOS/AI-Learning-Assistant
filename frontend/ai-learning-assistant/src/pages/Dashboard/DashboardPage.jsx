@@ -1,5 +1,5 @@
-
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Spinner from '../../components/common/Spinner'
 import progressService from '../../services/progressService'
 import toast from 'react-hot-toast'
@@ -72,7 +72,7 @@ const DashboardPage = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px, transparent_1px)] bg-size-[16px_16px] opacity-30 poinent-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-size-[16px_16px] opacity-30 pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto">
         {/* Header */}
@@ -142,7 +142,7 @@ const DashboardPage = () => {
                 ...(dashboardData.recentActivity.quizzes || []).map(quiz => ({
                   id: quiz._id,
                   description: quiz.title,
-                  timestamp: quiz.lastAttempted,
+                  timestamp: quiz.completedAt || quiz.createdAt,
                   link: `/quizzes/${quiz._id}`,
                   type: 'quiz'
                 }))
@@ -179,12 +179,12 @@ const DashboardPage = () => {
                     </div>
 
                     {activity.link && (
-                      <a
-                        href={activity.link}
+                      <Link
+                        to={activity.link}
                         className="ml-4 px-4 py-2 text-xs font-semibold text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-all duration-200 whitespace-nowrap"
                       >
                         View
-                      </a>
+                      </Link>
                     )}
                   </div>
                 ))}

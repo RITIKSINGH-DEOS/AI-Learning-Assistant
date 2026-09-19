@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react';
 import { useParams } from "react-router-dom";
-import { Sparkles, BookOpen, Lightbulb, Book } from 'lucide-react'
+import { Sparkles, BookOpen, Lightbulb } from 'lucide-react';
 import aiService from '../../services/aiService';
 import toast from 'react-hot-toast';
 import MarkdownRenderer from "../common/MarkdownRenderer";
 import Modal from "../common/Modal";
 
 const AIActions = () => {
-
     const { id: documentId } = useParams();
     const [loadingAction, setLoadingAction] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,7 +21,7 @@ const AIActions = () => {
             setModalTitle("Generated Summary");
             setModalContent(summary);
             setIsModalOpen(true);
-        } catch (error) {
+        } catch {
             toast.error("Failed to generate summary");
         } finally {
             setLoadingAction(null);
@@ -42,7 +41,7 @@ const AIActions = () => {
             setModalContent(explanation);
             setIsModalOpen(true);
             setConcept("");
-        } catch (error) {
+        } catch {
             toast.error("Failed to explain concept");
         } finally {
             setLoadingAction(null);
@@ -60,7 +59,7 @@ const AIActions = () => {
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-slate-900">AI Assistant</h3>
-                            <p className="text-xs text-slate-500">Powered by advancedAI</p>
+                            <p className="text-xs text-slate-500">Powered by Advanced AI</p>
                         </div>
                     </div>
                 </div>
@@ -77,7 +76,7 @@ const AIActions = () => {
                                     <h4 className="font-semibold text-slate-900">Generate Summary</h4>
                                 </div>
                                 <p className="text-sm text-slate-600 leading-relaxed">
-                                    Get a consise summary of the entire document
+                                    Get a concise summary of the entire document
                                 </p>
                             </div>
                             <button onClick={handleGenerateSummary}

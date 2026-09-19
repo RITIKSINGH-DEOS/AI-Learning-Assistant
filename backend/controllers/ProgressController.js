@@ -8,7 +8,7 @@ import Quiz from '../models/Quiz.js';
 
 export const getDashboard = async (req, res, next) => {
     try {
-        const userId = req.user.id;
+        const userId = req.user._id || req.user.id;
 
         //Get counts
         const totalDocuments = await Document.countDocuments({ userId });
@@ -30,7 +30,7 @@ export const getDashboard = async (req, res, next) => {
 
         //Get Quiz statistics
         const quizzes = await Quiz.find({ userId, completedAt: { $ne: null } });
-        const averageScore = quizzes.lenght > 0
+        const averageScore = quizzes.length > 0
             ? Math.round(quizzes.reduce((sum, q) => sum + q.score, 0) / quizzes.length)
             : 0;
 

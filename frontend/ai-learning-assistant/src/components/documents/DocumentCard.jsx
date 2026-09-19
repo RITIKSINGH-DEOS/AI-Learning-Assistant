@@ -1,6 +1,5 @@
-import React from 'react'
 import { useNavigate } from "react-router-dom";
-import { FileText, Trash2, BookOpen, BrainCircuit, Clock, Trash, Book } from "lucide-react";
+import { FileText, Trash2, BookOpen, BrainCircuit, Clock } from "lucide-react";
 import moment from "moment";
 
 //Helper function to format file size
@@ -37,7 +36,7 @@ const DocumentCard = ({ document, onDelete }) => {
         {/*Header Section*/}
         <div>
             <div className="flex items-center justify-between gap-3 mb-4">
-                <div className="shrink-0 w-12 h-12 bg-linear-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform duration-300">
+                <div className="shrink-0 w-12 h-12 rounded-xl bg-linear-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/25 group-hover:scale-110 transition-transform duration-300">
                     <FileText className="w-6 h-6" strokeWidth={2} />
                 </div>
                 <button onClick={handleDelete}

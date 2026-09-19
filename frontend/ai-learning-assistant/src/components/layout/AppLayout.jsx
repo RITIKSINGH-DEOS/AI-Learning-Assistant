@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import Sidebar from './Sidebar'
-import Header from './Header'
+import { useState } from 'react';
+import Sidebar from './Sidebar';
+import Header from './Header';
 
 const AppLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

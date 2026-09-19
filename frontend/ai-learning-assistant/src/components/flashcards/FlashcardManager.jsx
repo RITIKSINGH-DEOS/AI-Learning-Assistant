@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 import {
     Plus,
@@ -29,24 +29,24 @@ const FlashcardManager = ({ documentId }) => {
     const [deleting, setDeleting] = useState(false);
     const [setToDelete, setSetToDelete] = useState(null);
 
-    const fetchFlashcardSets = async () => {
+    const fetchFlashcardSets = useCallback(async () => {
         setLoading(true);
         try {
             const response = await flashcardService.getFlashcardsForDocument(documentId);
-            setFlashcardSets(response.data);
+            setFlashcardSets(response.data || []);
         } catch (error) {
             toast.error('Failed to fetch flashcard sets');
             console.log(error);
         } finally {
             setLoading(false);
         }
-    };
+    }, [documentId]);
 
     useEffect(() => {
         if (documentId) {
             fetchFlashcardSets();
         }
-    }, [documentId]);
+    }, [documentId, fetchFlashcardSets]);
 
 
 
@@ -89,7 +89,7 @@ const FlashcardManager = ({ documentId }) => {
         try {
             await flashcardService.reviewFlashcard(currentCard._id, index);
             toast.success('Flashcard reviewed!');
-        } catch (error) {
+        } catch {
             toast.error('Failed to review flashcard.');
         }
     };
@@ -100,7 +100,7 @@ const FlashcardManager = ({ documentId }) => {
             const updatedSets = flashcardSets.map((set) => {
                 if (set._id === selectedSet._id) {
                     const updatedCards = set.cards.map((card) =>
-                        card._id === cardId ? { ...card, isStarred: !card.isStarred } : card
+                        card._id === cardId ? { ...card, isStarred: !card.isStarred, starred: !card.isStarred } : card
                     );
                     return { ...set, cards: updatedCards };
 
@@ -111,7 +111,7 @@ const FlashcardManager = ({ documentId }) => {
             setFlashcardSets(updatedSets);
             setSelectedSet(updatedSets.find((set) => set._id === selectedSet._id));
             toast.success('Flashcard starred status updated successfully');
-        } catch (error) {
+        } catch {
             toast.error('Failed to update flashcard star status');
         }
     };
@@ -125,6 +125,7 @@ const FlashcardManager = ({ documentId }) => {
 
     const handleConfirmDelete = async () => {
         if (!setToDelete) return;
+        setDeleting(true);
         try {
             await flashcardService.deleteFlashcardSet(setToDelete._id);
             toast.success('Flashcard set deleted successfully');

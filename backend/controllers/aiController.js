@@ -115,7 +115,7 @@ export const generateQuiz = async (req, res, next) => {
 
         res.status(201).json({
             success: true,
-            data: quiz,
+            data: quizSet,
             message: 'Quiz generated successfully'
         });
 

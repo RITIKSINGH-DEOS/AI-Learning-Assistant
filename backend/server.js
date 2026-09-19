@@ -1,7 +1,6 @@
 import dotenv from 'dotenv'
 
 dotenv.config();
-console.log(process.env.GOOGLE_API_KEY);
 
 import express from 'express'
 import cors from 'cors'
@@ -70,7 +69,7 @@ app.use((req, res) => {
 //Start server 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
-    console.log(`Server is running on port ${process.env.NODE_ENV}mode on port ${port}`);
+    console.log(`Server is running in ${process.env.NODE_ENV || 'development'} mode on port ${port}`);
 });
 
 process.on('unhandledRejection', (err) => {

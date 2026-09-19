@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 import {
@@ -22,7 +22,7 @@ import Flashcard from '../../components/flashcards/Flashcard'
 const FlashcardPage = () => {
 
   const { id: documentId } = useParams();
-  const [flashcardSets, setFlashcardSets] = useState([]);
+  const [flashcardSets, setFlashcardSets] = useState(null);
   const [flashcards, setFlashcards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -30,25 +30,24 @@ const FlashcardPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-
-
-  const fetchFlashcards = async () => {
+  const fetchFlashcards = useCallback(async () => {
     setLoading(true);
     try {
       const response = await flashcardService.getFlashcardsForDocument(documentId);
-      setFlashcardSets(response.data[0]);
-      setFlashcards(response.data[0]?.cards || []);
+      const firstSet = response.data?.[0] || null;
+      setFlashcardSets(firstSet);
+      setFlashcards(firstSet?.cards || []);
     } catch (error) {
       toast.error("Failed to fetch flashcards");
       console.log(error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [documentId]);
 
   useEffect(() => {
     fetchFlashcards();
-  }, [documentId]);
+  }, [documentId, fetchFlashcards]);
 
   const handleGenerateFlashcards = async () => {
     setGenerating(true);
@@ -80,7 +79,7 @@ const FlashcardPage = () => {
     try {
       await flashcardService.reviewFlashcard(currentCard._id, index);
       toast.success("Flashcard reviewed!");
-    } catch (error) {
+    } catch {
       toast.error("Failed to review flashcard");
     }
 
@@ -90,15 +89,19 @@ const FlashcardPage = () => {
     try {
       await flashcardService.toggleStar(cardId);
       setFlashcards((prevFlashcards) =>
-        prevFlashcards.map((card) =>
-          card._id === cardId ? { ...card, starred: !card.starred } : card
-        )
+        prevFlashcards.map((card) => {
+          if (card._id === cardId) {
+            const nextVal = !(card.isStarred ?? card.starred);
+            return { ...card, isStarred: nextVal, starred: nextVal };
+          }
+          return card;
+        })
       );
       toast.success("Flashcard starred status updated!");
-    } catch (error) {
+    } catch {
       toast.error("Failed to update star status");
     }
-  }
+  };
 
   const handleDeleteFlashcardSet = async () => {
     setDeleting(true);

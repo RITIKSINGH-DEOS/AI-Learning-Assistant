@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import authService from '../../services/authService';
 import { BrainCircuit, Mail, Lock, ArrowRight, User } from 'lucide-react'
@@ -28,7 +28,7 @@ const RegisterPage = () => {
 
     try {
       await authService.register(username, email, password);
-      toast.success('Registeration successfull! Please login.');
+      toast.success('Registration successful! Please login.');
       navigate('/login');
     } catch (err) {
       setError(err.message || 'Failed to register.. Please try again.');
@@ -67,7 +67,7 @@ const RegisterPage = () => {
 
             {/* Username Field */}
             <div className="space-y-2">
-              <label className="black text-xs font-semibold test-slate-700 uppercase tracking-wide">
+              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide">
                 Username
               </label>
 
@@ -162,7 +162,7 @@ const RegisterPage = () => {
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="group relative w-full h-12 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 active:scale-[0.98] text-white text-sm font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emarald-500/20 disabled:cursor-not-allowed disabled:active:scale-100 shadow-lg shadow-emerald-500/25 overflow-hidden">
+              className="group relative w-full h-12 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 active:scale-[0.98] text-white text-sm font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 disabled:cursor-not-allowed disabled:active:scale-100 shadow-lg shadow-emerald-500/25 overflow-hidden">
 
               <span className="relative z-10 flex items-center justify-center gap-2">
                 {loading ? (
@@ -189,8 +189,8 @@ const RegisterPage = () => {
             <p className="text-center text-sm text-slate-600">
               Already have an account?{' '}
               <Link
-                to="/register"
-                className="font-semibold text-emerald-600 hover:text-emarald-700 transition-colors duration-200"
+                to="/login"
+                className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors duration-200"
               >
                 Sign in
               </Link>

@@ -1,4 +1,3 @@
-import React,{useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, Sparkles, TrendingUp } from 'lucide-react';
 import moment from 'moment';
@@ -6,9 +5,12 @@ import moment from 'moment';
 const FlashcardSetCard = ({ flashcardSet }) => {
 
     const navigate = useNavigate();
+    const documentId = flashcardSet?.documentId?._id || flashcardSet?.documentId;
 
     const handleStudyNow = () => {
-        navigate(`/documents/${flashcardSet.documentId._id}/flashcards`);
+        if (documentId) {
+            navigate(`/documents/${documentId}/flashcards`);
+        }
     };
 
     const reviewCount = flashcardSet.cards.filter(card => card.lastReviewed).length;
@@ -79,7 +81,7 @@ const FlashcardSetCard = ({ flashcardSet }) => {
                     e.stopPropagation();
                     handleStudyNow();
                 }}
-                className="group/btn relative w-full h-11 bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-emerald-700 hover:text-white font-semibold text-sm rounded-xl transition-all duration-200 active:scale-95 overflow-hidden"
+                className="group/btn relative w-full h-11 bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold text-sm rounded-xl transition-all duration-200 active:scale-95 overflow-hidden"
             >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                     <Sparkles className="w-4 h-4" strokeWidth={2.5} />

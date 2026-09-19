@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Plus, Upload, Trash2, FileText, X } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { useState, useEffect, useCallback } from 'react';
+import { Plus, Upload, Trash2, FileText, X } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 import documentService from '../../services/documentService';
 import Spinner from "../../components/common/Spinner";
@@ -8,8 +8,6 @@ import Button from '../../components/common/Button';
 import DocumentCard from '../../components/documents/DocumentCard';
 
 const DocumentListPage = () => {
-
-
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -24,24 +22,21 @@ const DocumentListPage = () => {
   const [deleting, setDeleting] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState(null);
 
-  const fetchDocuments = async () => {
+  const fetchDocuments = useCallback(async () => {
     try {
       const data = await documentService.getDocuments();
       setDocuments(data);
     } catch (error) {
       toast.error('Failed to fetch documents');
-      console.log(error);
-    }
-    finally {
+      console.error(error);
+    } finally {
       setLoading(false);
     }
-  };
-
-
+  }, []);
 
   useEffect(() => {
     fetchDocuments();
-  }, []);
+  }, [fetchDocuments]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -54,7 +49,7 @@ const DocumentListPage = () => {
   const handleUpload = async (e) => {
     e.preventDefault();
     if (!uploadFile || !uploadTitle) {
-      toast.error('Please provied a title and select a file.');
+      toast.error('Please provide a title and select a file.');
       return;
     }
     setUploading(true);
@@ -117,7 +112,7 @@ const DocumentListPage = () => {
             <p className="text-sm text-slate-500 mb-6">
               Get Started by uploading your first PDF document to begin learning.
             </p>
-            <Button onClick={() => setIsUploadModalOpen(true)} className="inline-flex items-center gap-2 px-6 py-3 bg-linear-tor from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-sm  font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover-shadow-emerald-500/30 active:scale-[0.98]">
+            <Button onClick={() => setIsUploadModalOpen(true)} className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover-shadow-emerald-500/30 active:scale-[0.98]">
               <Plus className="w-4 h-4" strokeWidth={2.5} />
               Upload Document
             </Button>
@@ -141,8 +136,8 @@ const DocumentListPage = () => {
 
   return (
     <div className="min-h-screen">
-      {/*Sublte background pattern*/}
-      <div className="absolute inset-0 bg-[radial-graident(#e5e7eb_1px, transparent_1px)] bg-size-[16px_16px] opacity-30 poinent-events-none" />
+      {/*Subtle background pattern*/}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-size-[16px_16px] opacity-30 pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto">
         {/*Header*/}
@@ -174,7 +169,7 @@ const DocumentListPage = () => {
             className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all duration-200">
             <X className="w-5 h-5" strokeWidth={2} />
           </button>
-          {/* Modal Headeer */}
+          {/* Modal Header */}
           <div className="mb-6">
             <h2 className="text-xl font-medium text-slate-900 tracking-tight">Upload New Document</h2>
             <p className="text-sm text-slate-500 mt-1">
@@ -262,7 +257,7 @@ const DocumentListPage = () => {
       )}
 
      {isDeleteModalOpen && ( <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-        <div className="relative w-full max-w-md bg-white/95 backdrop-blue-xl border border-slate-200/60 rounded-2xl shadow-2xl shadow-slate-900/20 p-8">
+        <div className="relative w-full max-w-md bg-white/95 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-2xl shadow-slate-900/20 p-8">
           {/*Close button*/}
           <button
             onClick={() => setIsDeleteModalOpen(false)}

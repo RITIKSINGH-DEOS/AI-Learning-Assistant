@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react';
 import { Send, MessageSquare, Sparkles } from 'lucide-react'
 import { useParams } from "react-router-dom";
 import aiService from '../../services/aiService';

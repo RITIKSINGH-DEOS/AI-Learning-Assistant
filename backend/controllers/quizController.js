@@ -156,14 +156,6 @@ export const getQuizResult = async (req, res, next) => {
             });
         }
 
-        if (!quiz) {
-            return res.status(404).json({
-                success: false,
-                error: "Quiz not found",
-                statusCode: 404
-            });
-        }
-
         if (!quiz.completedAt) {
             return res.status(400).json({
                 success: false,

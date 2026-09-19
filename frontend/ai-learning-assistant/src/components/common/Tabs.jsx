@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Tabs = ({ tabs, activeTab, setActiveTab }) => {
     return (
         <div className="w-full">
